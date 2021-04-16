@@ -103,7 +103,7 @@ $--fill-base: $--color-white !default;
 
 /* Typography
 -------------------------- */
-$--font-path: 'fonts' !default;
+$--font-path: 'fonts' !default; //sass.!default表明如果在此之前变量已经赋值，那就不使用默认值，如果没有赋值，则使用默认值。
 $--font-display: 'auto' !default;
 /// fontSize|1|Font Size|0
 $--font-size-extra-large: 20px !default;

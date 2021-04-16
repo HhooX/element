@@ -9,10 +9,12 @@
   font-style: normal;
 }
 
+// [attr^=value] 表示带有以 attr 命名的属性，且属性值是以 value 开头的元素。
+// [attr*=value] 表示带有以 attr 命名的属性，且属性值至少包含一个 value 值的元素。
 [class^="el-icon-"], [class*=" el-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'element-icons' !important;
-  speak: none;
+  speak: none;   //指定内容是否会提供听觉方式.听觉呈现通常会把文档转化为纯文本，然后传给屏幕阅读器
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
