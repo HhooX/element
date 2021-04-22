@@ -34,20 +34,21 @@
 
   export default {
     data() {
+      // 需要传入组件内的配置项并不是通过props传入的，这些配置都写在data中了，那怎么实现将配置项传入到组件中呢？这就需要看main.js的了
       return {
         visible: false,
-        message: '',
-        duration: 3000,
-        type: 'info',
-        iconClass: '',
-        customClass: '',
-        onClose: null,
-        showClose: false,
+        message: '', //消息文字
+        duration: 3000, //显示时间, 毫秒。设为 0 则不会自动关闭
+        type: 'info', //主题   可选值success/warning/info/error
+        iconClass: '', //自定义图标的类名，会覆盖 type
+        customClass: '', //自定义类名
+        onClose: null, //onClose参数，它的作用是关闭弹窗时的回调, 参数为被关闭的 message 实例
+        showClose: false, //是否显示关闭按钮
         closed: false,
-        verticalOffset: 20,
+        verticalOffset: 20, //Message 距离窗口顶部的偏移量
         timer: null,
-        dangerouslyUseHTMLString: false,
-        center: false
+        dangerouslyUseHTMLString: false, //允许确认框内容为html格式（message为HTML字符串）。message 属性虽然支持传入 HTML 片段，但是在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 XSS 攻击。因此在 dangerouslyUseHTMLString 打开的情况下，请确保 message 的内容是可信的，永远不要将用户提交的内容赋值给 message 属性。
+        center: false //文字是否居中
       };
     },
 
@@ -80,6 +81,7 @@
 
       close() {
         this.closed = true;
+        // 在data中初始化onClose为null，当我们需要这个回调时，onClose就为函数了，此时在关闭的时候调用this.onClose(this)，同时，我们将message实例传入到函数中，方便使用者进行更多自定义的操作。
         if (typeof this.onClose === 'function') {
           this.onClose(this);
         }

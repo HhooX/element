@@ -182,6 +182,7 @@ const install = function(Vue, opts = {}) {
     zIndex: opts.zIndex || 2000
   };
 
+  // 挂载到原型的方法
   Vue.prototype.$loading = Loading.service;
   Vue.prototype.$msgbox = MessageBox;
   Vue.prototype.$alert = MessageBox.alert;
