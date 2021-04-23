@@ -6,7 +6,7 @@ import { isVNode } from 'element-ui/src/utils/vdom';
 let MessageConstructor = Vue.extend(Main);
 
 let instance;
-let instances = [];
+let instances = []; // 存放当前未close的message
 let seed = 1;
 
 // Message的初始化方法
@@ -22,6 +22,7 @@ let seed = 1;
 // });
 
 const Message = function(options) {
+    // 当前 Vue 实例是否运行于服务器
   if (Vue.prototype.$isServer) return;
   options = options || {};
   if (typeof options === 'string') {
@@ -31,7 +32,7 @@ const Message = function(options) {
   }
   let userOnClose = options.onClose;// 外界传递进来的关闭方法
   let id = 'message_' + seed++;// 弹窗ID，每次增加，保证唯一性
-// 注册关闭事件,在main.vue中触发close事件，调用这里的onClose
+// [重写options.onClose]注册关闭事件,在main.vue中触发close事件，调用这里的onClose
   options.onClose = function() {
     Message.close(id, userOnClose);
   };
@@ -40,6 +41,7 @@ const Message = function(options) {
     data: options  // Message的参数options会作为data传递给main.vue组件里的 data
   });
   instance.id = id;
+   //判断instance.message是不是虚拟节点
   if (isVNode(instance.message)) {
     instance.$slots.default = [instance.message];
     instance.message = null;
@@ -54,6 +56,7 @@ const Message = function(options) {
   });
   instance.verticalOffset = verticalOffset; // 给实例赋值据顶端偏移
   instance.visible = true; // 显示message
+    // css z-index层级叠加，覆盖之前已出现但还未close的message
   instance.$el.style.zIndex = PopupManager.nextZIndex();
   instances.push(instance); // 将实例对象放入instances数组
 
@@ -61,6 +64,7 @@ const Message = function(options) {
   return instance;
 };
 
+// 给Message增加四个直接调用的方法。 支持this.$message.success('xxx')方式调用，等同于this.$message({type: 'success',message: 'xxx'})
 // 为单独调用的方式，绑定初始化事件。如：Message.success(options)
 ['success', 'warning', 'info', 'error'].forEach(type => {
   Message[type] = options => {
@@ -76,18 +80,19 @@ const Message = function(options) {
 
 
 // 弹窗的关闭事件
+// 组件的close方法中调用onClose再调该方法
 Message.close = function(id, userOnClose) {
   let len = instances.length;
   let index = -1;
   let removedHeight;
   for (let i = 0; i < len; i++) {
-    if (id === instances[i].id) {
+    if (id === instances[i].id) { // 通过id找到该message实例
       removedHeight = instances[i].$el.offsetHeight;
       index = i;
       if (typeof userOnClose === 'function') {
         userOnClose(instances[i]);
       }
-      instances.splice(i, 1);
+      instances.splice(i, 1); // 移除message实例
       break;
     }
   }
@@ -99,6 +104,7 @@ Message.close = function(id, userOnClose) {
   }
 };
 
+//关闭所有的消息提示弹窗
 Message.closeAll = function() {
   for (let i = instances.length - 1; i >= 0; i--) {
     instances[i].close();

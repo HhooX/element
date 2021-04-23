@@ -53,6 +53,7 @@
     },
 
     computed: {
+      // 根据type返回对应的图标类名
       typeClass() {
         return this.type && !this.iconClass
           ? `el-message__icon el-icon-${ typeMap[this.type] }`
