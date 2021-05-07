@@ -12,7 +12,7 @@
       v-show="visible"
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
-      role="alert">
+      role="alert"> 
       <i :class="iconClass" v-if="iconClass"></i>
       <i :class="typeClass" v-else></i>
       <slot>
