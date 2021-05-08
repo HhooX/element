@@ -182,13 +182,13 @@ const install = function(Vue, opts = {}) {
     zIndex: opts.zIndex || 2000
   };
 
-  // 挂载到原型的方法
   Vue.prototype.$loading = Loading.service;
   Vue.prototype.$msgbox = MessageBox;
   Vue.prototype.$alert = MessageBox.alert;
   Vue.prototype.$confirm = MessageBox.confirm;
   Vue.prototype.$prompt = MessageBox.prompt;
   Vue.prototype.$notify = Notification;
+  // FEAT 2、通过指令方式调用message。这样我们就可以在组件中使用this.$message()了。接下来实现Message
   Vue.prototype.$message = Message;
 
 };

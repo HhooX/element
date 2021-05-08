@@ -19,6 +19,7 @@
         <p v-if="!dangerouslyUseHTMLString" class="el-message__content">{{ message }}</p>
         <p v-else v-html="message" class="el-message__content"></p>
       </slot>
+      <!--  FEAT 4 可手动关闭  -->
       <i v-if="showClose" class="el-message__closeBtn el-icon-close" @click="close"></i>
     </div>
   </transition>
@@ -81,6 +82,7 @@
       },
 
       close() {
+        // TODO为什么通过watch，而不是直接在close里加 visible = false
         this.closed = true;
         // 在data中初始化onClose为null，当我们需要这个回调时，onClose就为函数了，此时在关闭的时候调用this.onClose(this)，同时，我们将message实例传入到函数中，方便使用者进行更多自定义的操作。
         if (typeof this.onClose === 'function') {
@@ -102,7 +104,7 @@
         }
       },
       keydown(e) {
-        if (e.keyCode === 27) { // esc关闭消息
+        if (e.keyCode === 27) { // esc关闭消息，element-plus有优化
           if (!this.closed) {
             this.close();
           }
@@ -110,6 +112,7 @@
       }
     },
     mounted() {
+      // FEAT 1、定时消失
       this.startTimer();
       document.addEventListener('keydown', this.keydown);
     },
