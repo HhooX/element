@@ -25,7 +25,7 @@ export default {
       default: 'horizontal'
     },
     alignCenter: Boolean, //进行居中对齐
-    simple: Boolean, //	是否应用简洁风格
+    simple: Boolean, //	是否应用简洁风格。设置 simple 可应用简洁风格，该条件下 align-center / description / direction / space 都将失效。
     finishStatus: { //设置结束步骤的状态
       type: String,
       default: 'finish'
