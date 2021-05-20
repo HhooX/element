@@ -30,7 +30,7 @@
           <i v-if="icon" class="el-step__icon-inner" :class="[icon]"></i>
            <!--如果图标和未设置isSimple简洁风格时，则显示步骤文字-->
           <div class="el-step__icon-inner" v-if="!icon && !isSimple">{{ index + 1 }}</div>
-        </slot>
+        </slot> 
          <!--如果当前状态为：success、error-->
         <i
           v-else
