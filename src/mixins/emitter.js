@@ -11,6 +11,7 @@ function broadcast(componentName, eventName, params) {
 }
 export default {
   methods: {
+    // dispatch函数是不停的向上去遍历父节点并且通过$emit去触发事件，到达根节点之后停止。
     dispatch(componentName, eventName, params) {
       var parent = this.$parent || this.$root;
       var name = parent.$options.componentName;
@@ -26,6 +27,7 @@ export default {
         parent.$emit.apply(parent, [eventName].concat(params));
       }
     },
+    // broadcast函数是不停的去遍历子节点并且通过$emit去触发事件，直到所有的子节点遍历完成之后停止。
     broadcast(componentName, eventName, params) {
       broadcast.call(this, componentName, eventName, params);
     }
