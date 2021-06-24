@@ -11,9 +11,9 @@
     role="radio"
     :aria-checked="model === label"
     :aria-disabled="isDisabled"
-    :tabindex="tabIndex"
+    :tabindex="tabIndex" 
     @keydown.space.stop.prevent="model = isDisabled ? model : label"
-  >
+  ><!-- tabIndex 属性可设置或返回单选按钮的 tab 键控制次序 -->
     <span class="el-radio__input"
       :class="{
         'is-disabled': isDisabled,
