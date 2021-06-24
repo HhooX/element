@@ -12,14 +12,19 @@ function broadcast(componentName, eventName, params) {
 export default {
   methods: {
     // dispatch函数是不停的向上去遍历父节点并且通过$emit去触发事件，到达根节点之后停止。
+    // 找到这个组件指定的父组件
+    // 使用vm.$emit触发这个父组件的事件（包括自定义事件）
+    // 其中的componentName是element组件自定义的一个属性
     dispatch(componentName, eventName, params) {
-      var parent = this.$parent || this.$root;
-      var name = parent.$options.componentName;
+      var parent = this.$parent || this.$root;//找到组件的父组件，或者这个组件本就是根组件。
+      var name = parent.$options.componentName;//获取到组件的componentName的值
+
 
       while (parent && (!name || name !== componentName)) {
-        parent = parent.$parent;
+         //只要parent为true,并且有name为false，或者name和componentName不全等，就一直循环。
+        parent = parent.$parent;//获取上一层组件实例对象
 
-        if (parent) {
+        if (parent) {//如果上层组件存在，重新将上层组件的componentName的值赋值给他
           name = parent.$options.componentName;
         }
       }
