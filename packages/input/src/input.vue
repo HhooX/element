@@ -306,6 +306,7 @@
         this.focused = false;
         this.$emit('blur', event);
         if (this.validateEvent) {
+          // this.dispatch 来自于mixins中的emitter，作用是不断查找和判断父组件是否是ElFormItem，找到之后就在这个父组件上$emit("el.form.blur", ...)，然后ElFormItem通过监听el.form.blur事件来校验。
           this.dispatch('ElFormItem', 'el.form.blur', [this.value]);
         }
       },
